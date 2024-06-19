@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const {check, validationResult, body} = require('express-validator');
 const {database} = require('../config/helpers');
 
 /* GET ALL PRODUCTS */
@@ -163,6 +164,45 @@ router.get('/category/:catId', (req, res) => { // Sending Page Query Parameter i
             }
         }).catch(err => res.json(err));
 
+});
+
+router.post('/create', async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json({errors: errors.array()});
+    } else {
+        let title = req.body.title
+        let image = req.body.image
+        let images = req.body.images
+        let description = req.body.description
+        let price = req.body.price
+        let quantity = req.body.quantity
+        let short_desc = req.body.short_desc
+        let cat_id = req.body.cat_id
+
+        database.table('products').insert({
+            title: title,
+            image: image,
+            images: images || null,
+            description: description,
+            price: price,
+            quantity: quantity,
+            short_desc: short_desc,
+            cat_id: cat_id || null
+        }).then(lastId => {
+            if (lastId > 0) {
+                res.status(201).json({
+                    status: 'success',
+                    message: `Добавлен новый товар ${title}`});
+            } else {
+                res.status(501).json({
+                    status: 'failure',
+                    message: 'Не удалось добавить товар'
+                });
+            }
+        }).catch(err => res.status(433).json({error: err}));
+    }
 });
 
 router.delete("/delete/:prodId", (req, res) => {
