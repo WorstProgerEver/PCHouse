@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit} from '@angular/core';
 import {OrderService} from '../../order.service';
 import {Subscription} from 'rxjs';
 
+declare var $: any;
+
 @Component({
   selector: 'app-all-orders',
   // standalone: true,
@@ -30,5 +32,25 @@ export class AllOrdersComponent {
 
   ngOnDestroy(): void {
     this.subs.map(s => s.unsubscribe());
+  }
+
+  confirmOrder(orderId: number): void {
+    this.subs.push(this.orderService.confirmOrder(orderId).subscribe(
+      res => {
+        if (res.status === 'failure') {
+          this.hasError = true;
+          this.errorMessage = res.message;
+        }
+
+        if (res.status === 'success') {
+          this.success = true;
+          this.errorMessage = res.message;
+        }
+
+        this.orders = res.orders;
+        console.log(this.orders);
+        $('.alert').delay(1000).slideUp(1500);
+      }
+    ));
   }
 }

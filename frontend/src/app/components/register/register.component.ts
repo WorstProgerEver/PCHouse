@@ -49,6 +49,10 @@ export class RegisterComponent implements OnInit {
       });
   }
 
+  redirectToLogin() {
+    window.location.href = window.location.origin + '/login'
+  }
+
   registerUser() {
 
     if (this.registrationForm.invalid) {
@@ -56,8 +60,11 @@ export class RegisterComponent implements OnInit {
     }
 
     // @ts-ignore
-    this.userService.registerUser({...this.registrationForm.value}).subscribe((response: { message: string }) => {
+    this.userService.registerUser({...this.registrationForm.value}).subscribe((response: { ok: string?, message: string }) => {
       this.registrationMessage = response.message;
+      if (response.ok) {
+        setTimeout(this.redirectToLogin, 3000);
+      }
     });
 
     this.registrationForm.reset();

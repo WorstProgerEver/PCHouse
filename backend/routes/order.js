@@ -20,7 +20,8 @@ router.get('/', (req, res) => {
                 on: 'u.id = o.user_id'
             }
         ])
-        .withFields(['o.id', 'p.title', 'p.description', 'p.price', 'u.username'])
+        .withFields(['o.id', 'o.status', 'p.title', 'p.description', 'p.price', 'u.username', 'od.quantity as quantityOrdered'])
+        .sort({id: .1})
         .getAll()
         .then(orders => {
             if (orders.length > 0) {
@@ -140,5 +141,33 @@ router.post('/payment', (req, res) => {
         res.status(200).json({success: true});
     }, 3000)
 });
+
+router.post("/confirm/:orderId", (req, res) => {
+    let orderId = req.params.orderId;
+  
+    if (!isNaN(orderId)) {
+      database
+        .table("orders")
+        .filter({ id: orderId })
+        .update({
+            status: 1
+        }).then(successNum => {
+              if (successNum == 1) {
+                  res.status(200).json({
+                      message: `Заказ #${orderId} успешно подтвержден`,
+                      status: 'success'
+                  });
+              } else {
+                  res.status(500).json({status: 'failure', message: 'Не удалось подтвердить заказ'});
+            }
+        })
+        .catch((err) => res.status(500).json(err));
+    } else {
+      res
+        .status(500)
+        .json({ message: "ID не является числом", status: "failure" });
+    }
+  });  
+
 
 module.exports = router;

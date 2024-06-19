@@ -16,8 +16,10 @@
                 <th width="20%">Id заказа</th>
                 <th>Название</th>
                 <!-- <th>Описание</th> -->
-                <th>Цена</th>
+                <th>Цена одного товара</th>
+                <th>Кол-во</th>
                 <th>Пользователь</th>
+                <th>Статус</th>
                 <th>Действие</th>
               </tr>
               </thead>
@@ -28,9 +30,16 @@
                 <td>{{ o.title }}</td>
                 <!-- <td>{{ o.description }}</td> -->
                 <td>{{ o.price | currency:'&#x20bd;'}}</td>
+                <td>{{ o.quantityOrdered }}</td>
+                <td [ngSwitch]="o.status">
+                  <!-- the same view can be shown in more than one case -->
+                  <ng-container *ngSwitchCase="0">Ожидает подтверждения</ng-container>
+                  <ng-container *ngSwitchCase="1">Подтвержден</ng-container>
+                  <ng-container *ngSwitchDefault>N/A</ng-container>
+                </td>
                 <td>{{ o.username }}</td>
-                <td>
-                  <button class="btn btn-sm btn-danger" (click)="TODO">Подтвердить выполнение заказа</button>
+                <td *ngIf="o.status == 0">
+                  <button class="btn btn-sm btn-danger" (click)="confirmOrder(o.id)">Подтвердить выполнение заказа</button>
                 </td>
               </tr>
               </tbody>

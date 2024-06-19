@@ -3,9 +3,8 @@
     <div class="col-md-12">
       <div class="jumbotron text-center">
         <h1 class="display-3">Спасибо вам!</h1>
-        <p class="lead"><strong>Проверьте свой email</strong> для подтверждения</p>
+        <p class="lead">Наши эксперты собирают ваш заказ, когда он будет подтверждён, вам придёт уведомление на email</p> <!-- <strong>Проверьте свой email</strong> для подтверждения -->
         <hr>
-        <p>
 
         <p>Номер заказа : <strong>{{orderId}}</strong></p>
       </div>
@@ -14,7 +13,7 @@
         <thead>
         <tr>
           <th>Фото</th>
-          <th>Описание</th>
+          <th>Название</th>
           <th>Цена</th>
           <th>Количество</th>
         </tr>
@@ -22,9 +21,9 @@
         <tbody>
         <tr *ngFor="let p of products">
           <td>
-            <img [src]="p.image" alt="{{p.name}}" class="img-thumbnail" width="100px">
+            <img [src]="p.image" alt="{{p.title}}" class="img-thumbnail" width="100px">
           </td>
-          <td>{{p.name}}</td>
+          <td>{{p.title}}</td>
           <td>{{p.price | currency:'&#x20bd;'}}</td>
           <td>{{p.quantityOrdered}}</td>
         </tr>
