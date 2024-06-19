@@ -77,6 +77,55 @@ router.get('/:prodId', (req, res) => {
         }).catch(err => res.json(err));
 });
 
+/* SEARCH FOR A PRODUCT */
+router.get('/search/:title', (req, res) => {
+    
+    let productTitle = req.params.title
+    if (!productTitle) {
+        res
+        .status(500)
+        .json({ message: "Не задано название", status: "failure" });
+    } else {
+        let catId = (req.query.catId !== undefined && req.query.catId !== 0) ? req.query.catId : 0;
+        // let filters = { 'p.title':  'LIKE %' + productTitle + '%'}
+        // let filters = { 'p.title': productTitle }
+        // database.table('products as p')
+        // .join([
+        //     {
+        //         table: "categories as c",
+        //         on: `c.id = p.cat_id`
+        //     }
+        // ])
+        // .withFields(['c.title as category',
+        //     'p.title as name',
+        //     'p.price',
+        //     'p.quantity',
+        //     'p.description',
+        //     'p.image',
+        //     'p.id'
+        // ])
+        // .filter(filters)
+        // .sort({id: .1})
+        // .getAll()
+        database.query(
+            'SELECT * FROM `products` WHERE `title` LIKE \'%' + productTitle + '%\'',
+            function (error, results, fields) {}
+            ).then(results => {
+                console.log("prod");
+                console.log(results);
+                if (results) {
+                    res.status(200).json({
+                        count: results.length,
+                        products: results
+                    });
+                } else {
+                    res.json({message: `Товары не найдены ${productTitle}`});
+                }
+            }).catch(err => res.json(err));
+    }
+    
+});
+
 /* GET ALL PRODUCTS FROM ONE CATEGORY */
 router.get('/category/:catId', (req, res) => { // Sending Page Query Parameter is mandatory http://localhost:3636/api/products/category/categoryName?page=1
     let page = (req.query.page !== undefined && req.query.page !== 0) ? req.query.page : 1;   // check if page query param is defined or not

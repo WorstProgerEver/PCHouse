@@ -35,8 +35,15 @@ export class ProductService {
     });
   }
 
-  /*GET PRODUCTS FROM ONE CATEGORY */
-  getProductsFromCategory(catId: string) : Observable<ProductModelServer[]>  {
-    return this.http.get<ProductModelServer[]>(this.SERVER_URL + '/products/category/' + catId);
-   }
+  /* SEARCH PRODUCTS  */
+  searchProducts(title: string, catId: number) : Observable<ServerResponse>  {
+    // return this.http.get<ServerResponse>(this.SERVER_URL + '/products/search');
+    return this.http.get<ServerResponse>(this.SERVER_URL + '/products/search/' + title);
+    // return this.http.get<ServerResponse>(this.SERVER_URL + '/products/search/' + title + "/" + catId);
+    // return this.http.get<ServerResponse>(this.SERVER_URL + '/products/search', {
+    //   params: {
+    //     title: title
+    //   }
+    // });
+  }
 }

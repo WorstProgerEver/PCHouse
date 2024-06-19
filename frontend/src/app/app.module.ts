@@ -9,6 +9,7 @@ import { FooterComponent } from '@app/components/footer/footer.component';
 import { CartComponent } from '@app/components/cart/cart.component';
 import { CheckoutComponent } from '@app/components/checkout/checkout.component';
 import { HomeComponent } from '@app/components/home/home.component';
+import { SearchproductComponent } from './components/searchproduct/searchproduct.component';
 import { ProductComponent } from '@app/components/product/product.component';
 import { ThankyouComponent } from '@app/components/thankyou/thankyou.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -32,6 +33,7 @@ import { AdminComponent } from './components/admin/admin.component';
     CartComponent,
     CheckoutComponent,
     HomeComponent,
+    SearchproductComponent,
     ProductComponent,
     ThankyouComponent,
     LoginComponent,

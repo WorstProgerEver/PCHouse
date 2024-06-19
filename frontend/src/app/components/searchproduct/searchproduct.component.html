@@ -1,0 +1,56 @@
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+
+            <!-- section title -->
+            <div class="col-md-12">
+                <div class="section-title">
+                    <h3 class="title">Товары</h3>
+
+                </div>
+            </div>
+            <!-- /section title -->
+
+            <!-- Products tab & slick -->
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 my-3" *ngFor="let p of products">
+                        <div class="card my-2 h-100">
+                            <div class="text-center">
+                                <img [src]="p.image" alt="{{p.name}}" class="card-img-top product-img"
+                                    style="cursor: pointer;" (click)="selectProduct(p.id)">
+                            </div>
+                            <div class="card-header h-25">
+                                <div class="card-title">
+                                    <p>{{p.name | titlecase}}</p>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h6>{{p.description.substr(0, 25)}}...</h6>
+                                <div class="rounded-pill home-price-tag"><strong>{{p.price |
+                                        currency:'&#x20bd;'}}</strong></div>
+                            </div>
+
+                            <div class="row d-flex justify-content-center border-primary my-3">
+                                <div class="col-md-6">
+                                    <button class="btn btn-outline-primary btn-sm btn-block"
+                                        [class.disabled]="p.quantity < 1" [class.btn-outline-danger]="p.quantity < 1"
+                                        (click)="AddToCart(p.id)">
+                                        {{ p.quantity < 1 ? "Нет в наличии" : "В корзину" }} </button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
