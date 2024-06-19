@@ -36,15 +36,15 @@
         <!-- SEARCH BAR -->
         <div class="col-md-6">
           <div class="header-search">
-            <form> 
+            <form (ngSubmit)="searchUpProducts()" [formGroup]="searchForm"> 
               <div class = "d-flex">
-                <select class="input-select">
-                  <option value="0">Категории</option>
+                <select class="input-select" formControlName="catId" id="catId" name="catId">
+                  <option value="0" selected>Категории</option>
                   <option *ngFor="let c of categories" value="{{c.id}}">
                     {{c.title}}
                   </option>
                 </select>
-                <input class="input" placeholder="Поиск">
+                <input class="input" placeholder="Поиск" formControlName="title" id="title" name="title">
                 <button class="search-btn">Поиск</button>
                 </div>
             </form>

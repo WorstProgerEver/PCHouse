@@ -4,6 +4,7 @@ import {CartService} from '../../services/cart.service';
 import {UserService} from '../../services/user.service';
 import {ProductService} from '../../services/product.service';
 import {CategoriesServerResponse, CategoryModelServer, ProductModelServer, ServerResponse} from '../../models/product.model';
+import {EmailValidator, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-header',
@@ -11,6 +12,7 @@ import {CategoriesServerResponse, CategoryModelServer, ProductModelServer, Serve
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  searchForm: FormGroup
   cartData: CartModelServer;
   cartTotal: number;
   authState: boolean;
@@ -19,8 +21,14 @@ export class HeaderComponent implements OnInit {
 
   constructor(private productService: ProductService,
               public cartService: CartService,
-              public userService: UserService
+              public userService: UserService,
+              private fb: FormBuilder
   ) {
+    
+    this.searchForm = fb.group({
+      catId: ['0'],
+      title: ['']
+    });
   }
 
   ngOnInit(): void {
@@ -33,6 +41,15 @@ export class HeaderComponent implements OnInit {
     this.productService.getAllCategories().subscribe((cats: CategoriesServerResponse) => {
       this.categories = cats.categories;
     });
+  }
+
+  searchUpProducts() {
+    if (this.searchForm.invalid) {
+      return;
+    }
+
+    console.log(this.searchForm.value)
+    window.location.href = window.location.origin + '/searchproduct/' +  this.searchForm.value.title + '/' + this.searchForm.value.catId
   }
 
 }

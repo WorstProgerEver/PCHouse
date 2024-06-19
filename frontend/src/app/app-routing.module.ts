@@ -38,13 +38,9 @@ const routes: Routes = [
       //   ]
       // },
       {
-        path: 'searchproduct/:title',
+        path: 'searchproduct/:title/:catId',
         component: SearchproductComponent
       },
-      // {
-      //   path: 'searchproduct',
-      //   component: SearchproductComponent
-      // },
       {
         path: 'cart', component: CartComponent
       },

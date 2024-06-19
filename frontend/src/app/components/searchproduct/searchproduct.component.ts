@@ -21,28 +21,14 @@ export class SearchproductComponent implements OnInit {
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.route.paramMap
-      .pipe(
-        map((param: ParamMap) => {
-          // @ts-ignore
-          return param.params.title;
-        })
-      )
-      .subscribe(title => {        
-        this.title = title;
-        this.productService.searchProducts(this.title, 0).subscribe(results => {
-          console.log(results)
-          this.products = results.products;
-        });
-        // this.productService.getAllProducts().subscribe((prods: ServerResponse) => {
-        //   this.products = prods.products;
-        // });
-        
-     });
-
-    // this.productService.getAllProducts().subscribe((prods: ServerResponse) => {
-    //   this.products = prods.products;
-    // });
+    this.title = this.route.snapshot.paramMap.get('title');
+    this.catId = parseInt(this.route.snapshot.paramMap.get('catId')) ?? 0;
+    console.log(this.title)
+    console.log(this.catId);
+    this.productService.searchProducts(this.title, this.catId).subscribe(results => {
+      console.log(results)
+      this.products = results.products;
+    });
   }
 
   selectProduct(id: number) {

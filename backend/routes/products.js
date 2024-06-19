@@ -78,37 +78,26 @@ router.get('/:prodId', (req, res) => {
 });
 
 /* SEARCH FOR A PRODUCT */
-router.get('/search/:title', (req, res) => {
+router.get('/search/:title/:catId', (req, res) => {
     
     let productTitle = req.params.title
+    let catId = req.params.catId
     if (!productTitle) {
         res
         .status(500)
         .json({ message: "Не задано название", status: "failure" });
     } else {
-        let catId = (req.query.catId !== undefined && req.query.catId !== 0) ? req.query.catId : 0;
-        // let filters = { 'p.title':  'LIKE %' + productTitle + '%'}
-        // let filters = { 'p.title': productTitle }
-        // database.table('products as p')
-        // .join([
-        //     {
-        //         table: "categories as c",
-        //         on: `c.id = p.cat_id`
-        //     }
-        // ])
-        // .withFields(['c.title as category',
-        //     'p.title as name',
-        //     'p.price',
-        //     'p.quantity',
-        //     'p.description',
-        //     'p.image',
-        //     'p.id'
-        // ])
-        // .filter(filters)
-        // .sort({id: .1})
-        // .getAll()
+        let sql = `SELECT p.* FROM products AS p
+        LEFT JOIN categories AS c ON p.cat_id = c.id
+        WHERE p.title LIKE '%` + productTitle + `%'`
+        console.log(catId)
+        if (catId != 0) {
+            sql += ` AND p.cat_id = ` + catId + ` `
+        }
+        sql += ` ORDER BY p.id DESC `
+        console.log(sql);
         database.query(
-            'SELECT * FROM `products` WHERE `title` LIKE \'%' + productTitle + '%\'',
+            sql,
             function (error, results, fields) {}
             ).then(results => {
                 console.log("prod");

@@ -38,7 +38,7 @@ export class ProductService {
   /* SEARCH PRODUCTS  */
   searchProducts(title: string, catId: number) : Observable<ServerResponse>  {
     // return this.http.get<ServerResponse>(this.SERVER_URL + '/products/search');
-    return this.http.get<ServerResponse>(this.SERVER_URL + '/products/search/' + title);
+    return this.http.get<ServerResponse>(this.SERVER_URL + '/products/search/' + title + '/' + catId);
     // return this.http.get<ServerResponse>(this.SERVER_URL + '/products/search/' + title + "/" + catId);
     // return this.http.get<ServerResponse>(this.SERVER_URL + '/products/search', {
     //   params: {
